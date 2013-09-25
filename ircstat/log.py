@@ -8,15 +8,20 @@ logging.addLevelName(logging.INFO, 'INF')
 logging.addLevelName(logging.WARNING, 'WRN')
 logging.addLevelName(logging.ERROR, 'ERR')
 
+sh = None
+
 def logger(name=None):
+    global sh
+
     log = logging.getLogger(name)
     log.setLevel(logging.DEBUG)
 
-    fm = logging.Formatter('%(levelname)s %(message)s')
+    if sh is None:
+        fm = logging.Formatter('%(levelname)s %(message)s')
 
-    sh = logging.StreamHandler()
-    sh.setLevel(logging.DEBUG)
-    sh.setFormatter(fm)
+        sh = logging.StreamHandler()
+        sh.setLevel(logging.DEBUG)
+        sh.setFormatter(fm)
 
     log.addHandler(sh)
 

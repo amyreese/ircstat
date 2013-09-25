@@ -1,0 +1,17 @@
+language: python
+python:
+    - "2.7"
+    - "3.2"
+    - "3.3"
+    - "pypy"
+script:
+    - "pip install ."
+notifications:
+    email: false
+    irc:
+        channels:
+            - "irc.freenode.org#noswap"
+        template:
+            - "%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message} - %{build_url}"
+        use_notice: true
+        skip_join: true

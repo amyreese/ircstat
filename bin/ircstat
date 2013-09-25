@@ -6,4 +6,4 @@ from __future__ import unicode_literals
 
 import ircstat
 
-print(ircstat.VERSION)
+ircstat.logger().info(ircstat.VERSION)

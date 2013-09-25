@@ -4,3 +4,4 @@
 from __future__ import absolute_import
 
 from .ircstat import VERSION
+from .log import logger

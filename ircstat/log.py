@@ -17,12 +17,17 @@ def logger(name=None):
     log.setLevel(logging.DEBUG)
 
     if sh is None:
-        fm = logging.Formatter('%(levelname)s %(message)s')
+        fm = logging.Formatter('%(message)s')
 
         sh = logging.StreamHandler()
-        sh.setLevel(logging.DEBUG)
+        sh.setLevel(logging.INFO)
         sh.setFormatter(fm)
 
     log.addHandler(sh)
 
     return log
+
+def enable_debug():
+    fm = logging.Formatter('%(levelname)s %(message)s')
+    sh.setLevel(logging.DEBUG)
+    sh.setFormatter(fm)

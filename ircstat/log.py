@@ -11,6 +11,8 @@ logging.addLevelName(logging.ERROR, 'ERR')
 sh = None
 
 def logger(name=None):
+    """Create and return a logger that will print to terminal, by default
+    at info level or higher."""
     global sh
 
     log = logging.getLogger(name)
@@ -28,6 +30,8 @@ def logger(name=None):
     return log
 
 def enable_debug():
-    fm = logging.Formatter('%(levelname)s %(message)s')
+    """Modify the shared StreamHandler to increase logging to debug level, and
+    update the formatting to include the message level and module name."""
+    fm = logging.Formatter('%(levelname)s - %(name)s - %(message)s')
     sh.setLevel(logging.DEBUG)
     sh.setFormatter(fm)

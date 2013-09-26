@@ -3,3 +3,4 @@
 
 from .ircstat import VERSION
 from .log import logger
+from .config import load_config

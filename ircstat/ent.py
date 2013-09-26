@@ -14,6 +14,23 @@ class Struct(object):
     def __repr__(self):
         return '<%s %s>' % (self.__class__.__name__, self.__dict__)
 
+    @classmethod
+    def subclasses(cls):
+        """Return a set of all subclasses, recursively."""
+        seen = set()
+        queue = set([cls])
+
+        while queue:
+            c = queue.pop()
+            seen.add(c)
+
+            sc = c.__subclasses__()
+            for c in sc:
+                if c not in seen:
+                    queue.add(c)
+
+        seen.remove(cls)
+        return seen
 
 class Message(Struct):
     """A single timestamped message."""
@@ -33,7 +50,6 @@ class Message(Struct):
                         message=message,
                         reason=reason,
                         hostmask=hostmask)
-
 
 class Conversation(Struct):
     """Store an ordered list of messages for a single day and channel."""

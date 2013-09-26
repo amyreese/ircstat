@@ -10,4 +10,4 @@ class Struct(object):
         self.__dict__.update(kwargs)
 
     def __repr__(self):
-        return '<Struct %s>' % self.__dict__
+        return '<%s %s>' % (self.__class__.__name__, self.__dict__)

@@ -5,7 +5,6 @@
 
 import argparse
 import ircstat
-import ircstat.config
 import re
 
 log = ircstat.logger()
@@ -33,7 +32,7 @@ def run():
     args = parse_args()
     log.debug(args)
 
-    config = ircstat.config.load_config(args.config)
+    config = ircstat.load_config(args.config)
 
     ircstat.do_everything(args.input_paths, args.output_path, config)
 

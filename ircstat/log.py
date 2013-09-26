@@ -15,17 +15,20 @@ def logger(name=None):
     at info level or higher."""
     global sh
 
-    log = logging.getLogger(name)
-    log.setLevel(logging.DEBUG)
-
     if sh is None:
+        root_log = logging.getLogger()
+        root_log.setLevel(logging.DEBUG)
+
         fm = logging.Formatter('%(message)s')
 
         sh = logging.StreamHandler()
         sh.setLevel(logging.INFO)
         sh.setFormatter(fm)
 
-    log.addHandler(sh)
+        root_log.addHandler(sh)
+
+    log = logging.getLogger(name)
+    log.setLevel(logging.DEBUG)
 
     return log
 

@@ -17,7 +17,7 @@ def parse_args():
     parser.add_argument('-c', '--config', type=str, default=None,
                         help='path to config file')
 
-    parser.add_argument('input_path', nargs='?', default='.',
+    parser.add_argument('input_paths', type=str, nargs='*', default=['.'],
                         help='path to input log files')
     parser.add_argument('output_path',
                         help='path to generate output files')
@@ -34,9 +34,8 @@ def run():
     log.debug(args)
 
     config = ircstat.config.load_config(args.config)
-    log.debug(config)
 
-    ircstat.do_everything(args.input_path, args.output_path, config)
+    ircstat.do_everything(args.input_paths, args.output_path, config)
 
 if __name__ == '__main__':
     run()

@@ -15,6 +15,36 @@ class Struct(object):
         return '<%s %s>' % (self.__class__.__name__, self.__dict__)
 
 
+class Message(Struct):
+    """A single timestamped message."""
+    MESSAGE=1
+    ACTION=2
+    JOIN=3
+    PART=4
+    QUIT=5
+
+    def __init__(self, message_type, time=None, nick=None,
+                 action=None, message=None, reason=None, hostmask=None):
+        Struct.__init__(self,
+                        message_type=message_type,
+                        time=time,
+                        nick=nick,
+                        action=action,
+                        message=message,
+                        reason=reason,
+                        hostmask=hostmask)
+
+
+class Conversation(Struct):
+    """Store an ordered list of messages for a single day and channel."""
+    def __init__(self, channel, date, messages=None):
+        if messages is None:
+            messages = []
+        Struct.__init__(self,
+                        channel=channel,
+                        date=date,
+                        messages=messages)
+
 class UserStat(Struct):
     """Store key/value pairs for a single user."""
     def __init__(self, nick):

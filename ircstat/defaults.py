@@ -68,3 +68,8 @@ log_message_regex = r'%s <%s> (?P<message>.*)' % (timestamp_regex, nick_regex)
 # must follow python's datetime.strptime() format, as defined at
 # http://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
 log_timestamp_date_format = r'%H:%M:%S'
+
+# plugins to blacklist from running
+# must be an iterable containing strings of plugin names,
+# without the 'Plugin' suffix
+plugin_blacklist = []

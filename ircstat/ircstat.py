@@ -8,6 +8,7 @@ from collections import Counter, OrderedDict
 from .ent import Message
 from .log import logger
 from .parser import LogParser
+from .plugins import load_plugins
 
 log = logger(__name__)
 
@@ -38,3 +39,7 @@ def do_everything(input_paths, output_path, config):
                           ])
 
     log.info(counter)
+
+    plugins = load_plugins(config)
+
+    log.debug(plugins)

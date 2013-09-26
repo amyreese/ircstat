@@ -2,6 +2,7 @@
 # Licensed under the MIT license
 
 import ircstat
+from ircstat.ent import Struct
 import json
 
 from os import path
@@ -26,7 +27,12 @@ def read_config_file(filepath, defaults=None):
     config = {}
 
     if defaults is not None:
-        config.update(defaults)
+        if isinstance(defaults, Struct):
+            config.update(defaults.__dict__)
+        elif isinstance(defaults, dict):
+            config.update(defaults)
+        else:
+            raise ValueError('defaults must be of type Struct or dict')
 
     with open(filepath) as fh:
         data = fh.read()
@@ -34,7 +40,7 @@ def read_config_file(filepath, defaults=None):
     data = compile(data, filepath, 'exec')
     exec(data, g, config)
 
-    return config
+    return Struct(config)
 
 def read_default_config():
     """Read in the default configuration file (part of the ircstat module)."""

@@ -23,23 +23,11 @@ def do_everything(input_paths, output_path, config):
         log.info('channel %s has %d conversations', channel,
                  len(conversations[channel]))
 
-    counter = Counter()
-
-    for channel in conversations:
-        for date, conversation in conversations[channel].items():
-            for message in conversation.messages:
-                counter[message.message_type] += 1
-
-    counter = OrderedDict([
-                          ('message', counter[Message.MESSAGE]),
-                          ('action', counter[Message.ACTION]),
-                          ('join', counter[Message.JOIN]),
-                          ('part', counter[Message.PART]),
-                          ('quit', counter[Message.QUIT]),
-                          ])
-
-    log.info(counter)
-
     plugins = load_plugins(config)
+    plugin_stats = {}
 
-    log.debug(plugins)
+    for plugin in plugins:
+        result = plugin.process(conversations)
+        plugin_stats[plugin] = result
+
+        log.debug(sorted(result.users.keys()))

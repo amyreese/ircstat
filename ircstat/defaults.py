@@ -1,6 +1,10 @@
 # Copyright 2013 John Reese
 # Licensed under the MIT license
 
+######################
+# Parsing options
+######################
+
 # the regex to parse data from irc log filenames.
 # must contain two named matching groups:
 #   channel: the name of the channel
@@ -64,10 +68,15 @@ log_action_regex = r'%s \* %s (?P<action>.*)' % (timestamp_regex, nick_regex)
 #   message: the contents of the message
 log_message_regex = r'%s <%s> (?P<message>.*)' % (timestamp_regex, nick_regex)
 
-# the format of the time content in the matched log timestamp.
+# the format of the time content in the matched log timestamp
 # must follow python's datetime.strptime() format, as defined at
 # http://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
 log_timestamp_date_format = r'%H:%M:%S'
+
+
+######################
+# Processing options
+######################
 
 # plugins to blacklist from running
 # must be an iterable containing strings of plugin names,

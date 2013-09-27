@@ -10,6 +10,7 @@ from os import path
 
 from .ent import Struct, Conversation, Message
 from .log import logger
+from .lib import canonical
 
 log = logger(__name__)
 
@@ -45,8 +46,14 @@ class LogParser(Struct):
                 for message_type, message_regex in self.message_types.items():
                     match = message_regex.match(line)
                     if match:
+                        content = match.groupdict()
+                        timestamp = datetime.strptime(content['time'],
+                                                      self.config.log_timestamp_format,
+                                                      ).time()
+                        content['time'] = timestamp
+                        content['nick'] = canonical(content['nick'])
                         messages.append(Message(message_type,
-                                                **match.groupdict()))
+                                                **content))
                         self.matched += 1
                         break
 

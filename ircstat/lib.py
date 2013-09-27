@@ -5,6 +5,8 @@ import re
 
 from functools import lru_cache
 
+from .ent import Message
+
 config = None
 def push_config(new_config):
     """Update the configuration being used by all the library functions.
@@ -14,6 +16,8 @@ def push_config(new_config):
 
 def is_bot(nick):
     """Determine if a nick a bot based on a configurable list of bots."""
+    if type(nick) == Message:
+        nick = nick.nick
     return nick in config.bots
 
 @lru_cache()

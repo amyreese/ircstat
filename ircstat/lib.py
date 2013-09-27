@@ -37,6 +37,7 @@ def canonical(nick):
 
     return nick
 
+@lru_cache()
 def ignore(nick):
     """Determine if the nick should be ignored.  Assumes the nick has already
     been canonicalized before being passed here."""

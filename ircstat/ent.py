@@ -32,6 +32,13 @@ class Struct(object):
         seen.remove(cls)
         return seen
 
+
+class Config(Struct):
+    """A configuration subclass of Struct that isn't noisy."""
+    def __repr__(self):
+        return '<Config>'
+
+
 class Message(Struct):
     """A single timestamped message."""
     MESSAGE=1
@@ -51,6 +58,7 @@ class Message(Struct):
                         reason=reason,
                         hostmask=hostmask)
 
+
 class Conversation(Struct):
     """Store an ordered list of messages for a single day and channel."""
     def __init__(self, channel, date, messages=None):
@@ -60,6 +68,7 @@ class Conversation(Struct):
                         channel=channel,
                         date=date,
                         messages=messages)
+
 
 class UserStat(Struct):
     """Store key/value pairs for a single user."""

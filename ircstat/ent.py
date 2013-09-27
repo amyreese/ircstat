@@ -82,17 +82,15 @@ class Conversation(Struct):
 
 class UserStat(Struct):
     """Store key/value pairs for a single user."""
-    def __init__(self, nick):
+    def __init__(self):
         Struct.__init__(self,
-                        nick=nick,
                         stats=defaultdict(int))
 
 
 class DailyStat(Struct):
     """Store key/value pairs for the day, and for a set of users."""
-    def __init__(self, date):
+    def __init__(self):
         Struct.__init__(self,
-                        date=date,
                         users=defaultdict(UserStat),
                         stats=defaultdict(int))
 
@@ -100,9 +98,8 @@ class DailyStat(Struct):
 class ChannelStat(Struct):
     """Store key/value pairs for a given channel, a set of days, and for
     a set of users."""
-    def __init__(self, channel):
+    def __init__(self):
         Struct.__init__(self,
-                        channel=channel,
                         users=defaultdict(UserStat),
                         days=defaultdict(DailyStat),
                         stats=defaultdict(int))

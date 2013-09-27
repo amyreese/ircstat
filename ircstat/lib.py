@@ -33,4 +33,16 @@ def canonical(nick):
 
     return nick
 
+def ignore(nick):
+    """Determine if the nick should be ignored.  Assumes the nick has already
+    been canonicalized before being passed here."""
+    global _ignores
+
+    if _ignores is None:
+        _ignores = [re.compile(v + '$') for v in config.ignore]
+
+    return any(regex.match(nick) for regex in _ignores)
+
+
 _aliases = None
+_ignores = None

@@ -89,6 +89,9 @@ bots = ['chanserv']
 # note: a large number of aliases may impact time spent parsing log files
 aliases = {}
 
+# list of nicks, or regexes to match to nicks, that should be ignored
+ignore = []
+
 
 ######################
 # Plugin options

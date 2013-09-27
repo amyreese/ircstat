@@ -10,7 +10,7 @@ from os import path
 
 from .ent import Struct, Conversation, Message
 from .log import logger
-from .lib import canonical
+from .lib import canonical, ignore
 
 log = logger(__name__)
 
@@ -19,11 +19,11 @@ class LogParser(Struct):
     a set of channels, and a set of users."""
     def __init__(self, config):
         message_types = OrderedDict([
+            (Message.MESSAGE, re.compile(config.log_message_regex)),
+            (Message.ACTION, re.compile(config.log_action_regex)),
             (Message.JOIN, re.compile(config.log_join_regex)),
             (Message.PART, re.compile(config.log_part_regex)),
             (Message.QUIT, re.compile(config.log_quit_regex)),
-            (Message.ACTION, re.compile(config.log_action_regex)),
-            (Message.MESSAGE, re.compile(config.log_message_regex)),
         ])
         Struct.__init__(self,
                         config=config,
@@ -47,11 +47,14 @@ class LogParser(Struct):
                     match = message_regex.match(line)
                     if match:
                         content = match.groupdict()
-                        timestamp = datetime.strptime(content['time'],
-                                                      self.config.log_timestamp_format,
-                                                      ).time()
-                        content['time'] = timestamp
+
                         content['nick'] = canonical(content['nick'])
+                        if ignore(content['nick']):
+                            break
+
+                        content['time'] = datetime.strptime(content['time'],
+                                              self.config.log_timestamp_format,
+                                              ).time()
                         messages.append(Message(message_type,
                                                 **content))
                         self.matched += 1

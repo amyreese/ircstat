@@ -71,7 +71,23 @@ log_message_regex = r'%s <%s> (?P<message>.*)' % (timestamp_regex, nick_regex)
 # the format of the time content in the matched log timestamp
 # must follow python's datetime.strptime() format, as defined at
 # http://docs.python.org/2/library/datetime.html#strftime-strptime-behavior
-log_timestamp_date_format = r'%H:%M:%S'
+log_timestamp_format = r'%H:%M:%S'
+
+
+######################
+# User/nick options
+######################
+
+# list of nicks to be treated as bots rather than humans
+# nicks should always be lowercase
+bots = ['chanserv']
+
+# mapping of nick aliases, for users that use multiple or alternate nicks
+# keys consist of regexes, and are forced to match the entire nick
+# use .* to match arbitrary prefixes or suffixes
+# values should be the primary nick to use in place of the aliased nick
+# note: a large number of aliases may impact time spent parsing log files
+aliases = {}
 
 
 ######################

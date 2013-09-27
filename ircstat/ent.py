@@ -57,14 +57,23 @@ class Message(Struct):
     PART=4
     QUIT=5
 
-    def __init__(self, message_type, time=None, nick=None,
-                 action=None, message=None, reason=None, hostmask=None):
+    @staticmethod
+    def type_to_name(message_type):
+        return {
+            Message.MESSAGE: 'message',
+            Message.ACTION: 'action',
+            Message.JOIN: 'join',
+            Message.PART: 'part',
+            Message.QUIT: 'quit',
+        }[message_type]
+
+    def __init__(self, type, time=None, nick=None,
+                 content=None, reason=None, hostmask=None):
         Struct.__init__(self,
-                        message_type=message_type,
+                        type=type,
                         time=time,
                         nick=nick,
-                        action=action,
-                        message=message,
+                        content=content,
                         reason=reason,
                         hostmask=hostmask)
 

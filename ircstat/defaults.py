@@ -58,15 +58,15 @@ log_quit_regex = r'%s \*\*\* Quits: %s \((?P<hostmask>[^)]+)\) \((?P<reason>[^)]
 # must contain these named matching groups:
 #   time: the timestamp of the action
 #   nick: the nick that sent the action
-#   action: the contents of the action
-log_action_regex = r'%s \* %s (?P<action>.*)' % (timestamp_regex, nick_regex)
+#   content: the contents of the action
+log_action_regex = r'%s \* %s (?P<content>.*)' % (timestamp_regex, nick_regex)
 
 # regex to match a line containing a user message
 # must contain these named matching groups:
 #   time: the timestamp of the message
 #   nick: the nick that sent the message
-#   message: the contents of the message
-log_message_regex = r'%s <%s> (?P<message>.*)' % (timestamp_regex, nick_regex)
+#   content: the contents of the message
+log_message_regex = r'%s <%s> (?P<content>.*)' % (timestamp_regex, nick_regex)
 
 # the format of the time content in the matched log timestamp
 # must follow python's datetime.strptime() format, as defined at

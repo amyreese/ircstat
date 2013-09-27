@@ -7,6 +7,8 @@ import json
 
 from os import path
 
+from .plugins import Plugin
+
 log = ircstat.log.logger(__name__)
 
 def read_config_file(filepath, defaults=None):
@@ -24,7 +26,7 @@ def read_config_file(filepath, defaults=None):
     log.debug('loading configuration from %s', filepath)
 
     g = {"__builtins__": {}}
-    config = {}
+    config = {'plugins': Config({p.name: Config() for p in Plugin.subclasses()})}
 
     if defaults is not None:
         if isinstance(defaults, Config):

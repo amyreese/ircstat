@@ -75,7 +75,7 @@ log_timestamp_date_format = r'%H:%M:%S'
 
 
 ######################
-# Processing options
+# Plugin options
 ######################
 
 # plugins to blacklist from running

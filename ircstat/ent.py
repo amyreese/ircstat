@@ -3,13 +3,23 @@
 
 from collections import defaultdict
 
+safe_types = (bool, int, float, str, tuple, list, dict, set)
+
 class Struct(object):
     """A basic object type that, given a dictionary or keyword arguments,
     converts the key/value pairs into object attributes."""
     def __init__(self, data=None, **kwargs):
-        if data is not None:
-            self.__dict__.update(data)
-        self.__dict__.update(kwargs)
+        if data is None:
+            data =  {}
+        data.update(kwargs)
+
+        # prevent overwriting values with unsafe callables
+        for key, value in list(data.items()):
+            if (key in self.__class__.__dict__ and
+                type(value) not in safe_types):
+                data.pop(key)
+
+        self.__dict__.update(data)
 
     def __repr__(self):
         return '<%s %s>' % (self.__class__.__name__, self.__dict__)

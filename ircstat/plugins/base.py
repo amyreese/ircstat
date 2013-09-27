@@ -1,8 +1,6 @@
 # Copyright 2013 John Reese
 # Licensed under the MIT license
 
-import re
-
 from ..ent import Struct, NetworkStat
 from ..log import logger
 

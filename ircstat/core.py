@@ -33,3 +33,6 @@ def do_everything(input_paths, output_path, config):
         plugin_stats[plugin] = result
 
         log.debug(sorted(result.users.keys()))
+
+        if plugin.name == 'Highbrow':
+            log.debug(result.stats)

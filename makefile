@@ -7,5 +7,8 @@ dev:
 upload:
 	python setup.py sdist upload
 
+lint:
+	flake8 ircstat
+
 clean:
 	rm -rf build dist README MANIFEST ircstat.egg-info

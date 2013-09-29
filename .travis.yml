@@ -3,7 +3,9 @@ python:
     - "3.2"
     - "3.3"
 script:
+    - "pip install flake8"
     - "pip install ."
+    - "make lint"
 notifications:
     email: false
     irc:

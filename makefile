@@ -8,7 +8,7 @@ upload:
 	python setup.py sdist upload
 
 lint:
-	flake8 ircstat
+	flake8 --max-complexity 10 --show-source ircstat
 
 clean:
 	rm -rf build dist README MANIFEST ircstat.egg-info

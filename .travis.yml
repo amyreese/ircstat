@@ -2,8 +2,10 @@ language: python
 python:
     - "3.2"
     - "3.3"
+install:
+    - "pip install numpy --use-mirrors"
+    - "pip install . --use-mirrors"
 script:
-    - "pip install ."
     - "make lint"
 notifications:
     email: false

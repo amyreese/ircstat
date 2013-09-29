@@ -36,6 +36,7 @@ class Highbrow(Plugin):
 
         swears = {swear: len(regex.findall(content))
                   for swear, regex in self._swears.items()}
+        swears['total'] = sum(swears.values())
 
         self.inc_shared_stats(nick, **swears)
 

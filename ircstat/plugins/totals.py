@@ -1,9 +1,10 @@
 # Copyright 2013 John Reese
 # Licensed under the MIT license
 
-from ..lib import *
+from ..lib import is_bot
 from ..ent import Message
 from .base import Plugin
+
 
 class Totals(Plugin):
     """Gathers total message type statistics, broken down by channel, day
@@ -12,8 +13,12 @@ class Totals(Plugin):
     def process_message(self, message):
         nick = message.nick
         mtype = Message.type_to_name(message.type)
+        kwargs = {
+            mtype: 1,
+        }
 
-        self.inc_shared_stats(nick, mtype=1)
+        self.inc_shared_stats(nick, **kwargs)
+
 
 class Wordcount(Plugin):
     """Tracks the average word count of messages."""

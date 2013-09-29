@@ -34,7 +34,8 @@ nick_regex = r'(?P<nick>\S+)'
 #   nick: the nick that joined
 # may optionally contain these named matching groups:
 #   hostmask: the hostmask of the nick that joined
-log_join_regex = r'%s \*\*\* Joins: %s \((?P<hostmask>[^)]+)\)' % (timestamp_regex, nick_regex)
+log_join_regex = r'%s \*\*\* Joins: %s \((?P<hostmask>[^)]+)\)'\
+    % (timestamp_regex, nick_regex)
 
 # regex to match a line containing a part action
 # must contain these named matching groups:
@@ -43,7 +44,8 @@ log_join_regex = r'%s \*\*\* Joins: %s \((?P<hostmask>[^)]+)\)' % (timestamp_reg
 # may optionally contain these named matching groups:
 #   hostmask: the hostmask of the nick that left
 #   reason: the reason that the nick left
-log_part_regex = r'%s \*\*\* Parts: %s \((?P<hostmask>[^)]+)\) \((?P<reason>[^)]*)\)' % (timestamp_regex, nick_regex)
+log_part_regex = r'%s \*\*\* Parts: %s \((?P<hostmask>[^)]+)\) '\
+    '\((?P<reason>[^)]*)\)' % (timestamp_regex, nick_regex)
 
 # regex to match a line containing a quit action
 # must contain these named matching groups:
@@ -52,7 +54,8 @@ log_part_regex = r'%s \*\*\* Parts: %s \((?P<hostmask>[^)]+)\) \((?P<reason>[^)]
 # may optionally contain these named matching groups:
 #   hostmask: the hostmask of the nick that quit
 #   reason: the reason that the nick quit
-log_quit_regex = r'%s \*\*\* Quits: %s \((?P<hostmask>[^)]+)\) \((?P<reason>[^)]*)\)' % (timestamp_regex, nick_regex)
+log_quit_regex = r'%s \*\*\* Quits: %s \((?P<hostmask>[^)]+)\) '\
+    '\((?P<reason>[^)]*)\)' % (timestamp_regex, nick_regex)
 
 # regex to match a line containing a user /me action
 # must contain these named matching groups:

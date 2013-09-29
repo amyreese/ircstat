@@ -14,6 +14,7 @@ from .lib import canonical, ignore
 
 log = logger(__name__)
 
+
 class LogParser(Struct):
     """Parse a set of logs, and generate statistics for the entire set of logs,
     a set of channels, and a set of users."""
@@ -52,9 +53,10 @@ class LogParser(Struct):
                         if ignore(content['nick']):
                             break
 
-                        content['time'] = datetime.strptime(content['time'],
-                                              self.config.log_timestamp_format,
-                                              ).time()
+                        content['time'] = datetime.strptime(
+                            content['time'],
+                            self.config.log_timestamp_format,
+                            ).time()
                         messages.append(Message(message_type,
                                                 **content))
                         self.matched += 1

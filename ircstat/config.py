@@ -3,13 +3,13 @@
 
 import ircstat
 from ircstat.ent import Config
-import json
 
 from os import path
 
 from .plugins import Plugin
 
 log = ircstat.log.logger(__name__)
+
 
 def read_config_file(filepath, defaults=None):
     """Read configuration from a given file path, by executing the contents as
@@ -26,7 +26,8 @@ def read_config_file(filepath, defaults=None):
     log.debug('loading configuration from %s', filepath)
 
     g = {"__builtins__": {}}
-    config = {'plugins': Config({p.name: Config() for p in Plugin.subclasses()})}
+    config = {'plugins': Config({p.name: Config()
+                                for p in Plugin.subclasses()})}
 
     if defaults is not None:
         if isinstance(defaults, Config):
@@ -44,6 +45,7 @@ def read_config_file(filepath, defaults=None):
 
     return Config(config)
 
+
 def read_default_config():
     """Read in the default configuration file (part of the ircstat module)."""
     here = path.dirname(path.realpath(__file__))
@@ -51,8 +53,9 @@ def read_default_config():
 
     return read_config_file(filepath)
 
+
 def load_config(filepath=None):
-    """Reads in the given configuration file, overwriting the default values."""
+    """Read in the given configuration file, overwriting the default values."""
     defaults = read_default_config()
 
     if filepath is not None:

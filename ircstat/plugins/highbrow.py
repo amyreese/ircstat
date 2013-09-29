@@ -3,9 +3,9 @@
 
 import re
 
-from ..lib import *
-from ..ent import Message
+from ..lib import is_bot
 from .base import Plugin
+
 
 class Highbrow(Plugin):
     """Gathers metrics related to how intelligent the conversation (or users)
@@ -42,4 +42,3 @@ class Highbrow(Plugin):
 
     # cache compiled regexes
     _swears = None
-

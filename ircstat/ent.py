@@ -5,18 +5,19 @@ from collections import defaultdict
 
 safe_types = (bool, int, float, str, tuple, list, dict, set)
 
+
 class Struct(object):
     """A basic object type that, given a dictionary or keyword arguments,
     converts the key/value pairs into object attributes."""
     def __init__(self, data=None, **kwargs):
         if data is None:
-            data =  {}
+            data = {}
         data.update(kwargs)
 
         # prevent overwriting values with unsafe callables
         for key, value in list(data.items()):
             if (key in self.__class__.__dict__ and
-                type(value) not in safe_types):
+                    type(value) not in safe_types):
                 data.pop(key)
 
         self.__dict__.update(data)
@@ -51,11 +52,11 @@ class Config(Struct):
 
 class Message(Struct):
     """A single timestamped message."""
-    MESSAGE=1
-    ACTION=2
-    JOIN=3
-    PART=4
-    QUIT=5
+    MESSAGE = 1
+    ACTION = 2
+    JOIN = 3
+    PART = 4
+    QUIT = 5
 
     @staticmethod
     def type_to_name(message_type):

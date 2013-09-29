@@ -7,6 +7,7 @@ from ..lib import month, week
 
 log = logger(__name__)
 
+
 class Plugin(Struct):
     """A pluggable class for generating and displaying message statistics."""
     def __init__(self, config):
@@ -52,7 +53,7 @@ class Plugin(Struct):
 
     def inc_network_stats(self, **kwargs):
         """Increment aggregate stat counters for the given key/value pairs."""
-        for key,value in kwargs.items():
+        for key, value in kwargs.items():
             self.network.stats[key] += value
             self.channel.stats[key] += value
             self.day.stats[key] += value

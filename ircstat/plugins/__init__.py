@@ -9,6 +9,7 @@ from os import path
 
 from .base import Plugin
 
+
 @lru_cache()
 def load_plugins(config):
     """Import all the plugins, and return a set of plugin instances, filtering

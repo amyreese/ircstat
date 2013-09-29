@@ -3,15 +3,13 @@
 
 VERSION = '0.1.0'
 
-from collections import Counter, OrderedDict
-
-from .ent import Message
 from .log import logger
 from .lib import push_config
 from .parser import LogParser
 from .plugins import load_plugins
 
 log = logger(__name__)
+
 
 def do_everything(input_paths, output_path, config):
     """One entry point to rule them all."""

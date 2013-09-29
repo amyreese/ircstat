@@ -94,6 +94,17 @@ ignore = []
 
 
 ######################
+# Graphing options
+######################
+
+# for time-series graphs, how many days back should the graphs show
+graph_days = 180
+
+# for graphs comparing multiple users, how many of the "top" users to show
+graph_users = 10
+
+
+######################
 # Plugin options
 ######################
 

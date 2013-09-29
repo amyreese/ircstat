@@ -104,6 +104,22 @@ class DailyStat(Struct):
                         stats=defaultdict(int))
 
 
+class WeeklyStat(Struct):
+    """Store key/value pairs for a week, and for a set of users."""
+    def __init__(self):
+        Struct.__init__(self,
+                        users=defaultdict(UserStat),
+                        stats=defaultdict(int))
+
+
+class MonthlyStat(Struct):
+    """Store key/value pairs for a month, and for a set of users."""
+    def __init__(self):
+        Struct.__init__(self,
+                        users=defaultdict(UserStat),
+                        stats=defaultdict(int))
+
+
 class ChannelStat(Struct):
     """Store key/value pairs for a given channel, a set of days, and for
     a set of users."""
@@ -111,6 +127,8 @@ class ChannelStat(Struct):
         Struct.__init__(self,
                         users=defaultdict(UserStat),
                         days=defaultdict(DailyStat),
+                        weeks=defaultdict(WeeklyStat),
+                        months=defaultdict(MonthlyStat),
                         stats=defaultdict(int))
 
 

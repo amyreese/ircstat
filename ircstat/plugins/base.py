@@ -3,6 +3,7 @@
 
 from ..ent import Struct, NetworkStat
 from ..log import logger
+from ..lib import month, week
 
 log = logger(__name__)
 
@@ -22,6 +23,8 @@ class Plugin(Struct):
 
             for date, conversation in conversations[channel].items():
                 self.day = self.channel.days[date]
+                self.week = self.channel.weeks[week(date)]
+                self.month = self.channel.months[month(date)]
                 self.process_conversation(conversation)
 
         return self.network
@@ -44,6 +47,8 @@ class Plugin(Struct):
             self.network.users[nick].stats[key] += value
             self.channel.users[nick].stats[key] += value
             self.day.users[nick].stats[key] += value
+            self.week.users[nick].stats[key] += value
+            self.month.users[nick].stats[key] += value
 
     def inc_network_stats(self, **kwargs):
         """Increment aggregate stat counters for the given key/value pairs."""
@@ -51,14 +56,10 @@ class Plugin(Struct):
             self.network.stats[key] += value
             self.channel.stats[key] += value
             self.day.stats[key] += value
+            self.week.stats[key] += value
+            self.month.stats[key] += value
 
     def inc_shared_stats(self, nick, **kwargs):
         """Increment shared user/aggregate stat counters."""
-        for key,value in kwargs.items():
-            self.network.stats[key] += value
-            self.channel.stats[key] += value
-            self.day.stats[key] += value
-
-            self.network.users[nick].stats[key] += value
-            self.channel.users[nick].stats[key] += value
-            self.day.users[nick].stats[key] += value
+        self.inc_user_stats(nick, **kwargs)
+        self.inc_network_stats(**kwargs)

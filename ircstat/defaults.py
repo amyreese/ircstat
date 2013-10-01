@@ -100,6 +100,9 @@ ignore = []
 # Graphing options
 ######################
 
+# enable matplotlib's XKCD mode, where graphs will look hand-drawn
+xkcd_mode = True
+
 # for time-series graphs, how many days back should the graphs show
 graph_days = 180
 

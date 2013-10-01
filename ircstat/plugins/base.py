@@ -64,3 +64,8 @@ class Plugin(Struct):
         """Increment shared user/aggregate stat counters."""
         self.inc_user_stats(nick, **kwargs)
         self.inc_network_stats(**kwargs)
+
+    def generate_graphs(self):
+        """Return a list of Graph objects."""
+
+        return []

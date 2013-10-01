@@ -99,6 +99,8 @@ class ValueComparison(Graph):
         else:
             if isinstance(dataset, dict):
                 dataset = [(v, k) for k, v in dataset.items()]
+            else:
+                dataset = [(v, k) for k, v in dataset]
 
             pairs = sorted(dataset, reverse=True)
             values, labels = zip(*pairs)

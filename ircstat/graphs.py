@@ -5,12 +5,11 @@ try:
     import matplotlib.pyplot as plt
     import numpy as np
 except ImportError:
-    pass # let's be nice and not error out in setup.py
+    pass  # let's be nice and not error out in setup.py
 
 from collections import Counter
 
 from .ent import Struct
-from .lib import config
 
 FADED = '#e8e8e8'
 
@@ -28,6 +27,7 @@ class Graph(Struct):
         plt.figure()
         plt.title(self.title)
 
+        from .lib import config
         if config.xkcd_mode:
             plt.xkcd()
 

@@ -26,7 +26,7 @@ class Totals(Plugin):
                                  network=self.network,
                                  bars=True,
                                  keys={k: k
-                                    for k in Message.type_names.values()},
+                                       for k in Message.type_names.values()},
                                  ),
             NetworkUserComparison(title='Channel Joins',
                                   network=self.network,

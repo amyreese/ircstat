@@ -30,9 +30,12 @@ class Totals(Plugin):
                                  ),
             NetworkUserComparison(title='Channel Joins',
                                   network=self.network,
-                                  bars=True,
                                   key=Message.type_to_name(Message.JOIN),
-                                  log=True,
+                                  ),
+            NetworkUserComparison(title='Messages Sent',
+                                  network=self.network,
+                                  bars=True,
+                                  key=Message.type_to_name(Message.MESSAGE)
                                   ),
         ]
 

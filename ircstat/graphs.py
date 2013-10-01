@@ -1,8 +1,11 @@
 # Copyright 2013 John Reese
 # Licensed under the MIT license
 
-import matplotlib.pyplot as plt
-import numpy as np
+try:
+    import matplotlib.pyplot as plt
+    import numpy as np
+except ImportError:
+    pass # let's be nice and not error out in setup.py
 
 from collections import Counter
 

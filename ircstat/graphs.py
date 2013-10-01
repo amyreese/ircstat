@@ -6,7 +6,6 @@ import numpy as np
 
 from .ent import Struct
 
-
 FADED = '#e8e8e8'
 
 
@@ -108,10 +107,25 @@ class ChannelKeyOverTime(TimeSeries):
     pass
 
 
+class NetworkKeyComparison(ValueComparison):
+    """Graph a comparison of user values at the network level."""
+
+    def __init__(self, network=None, keys=None, **kwargs):
+        ValueComparison.__init__(self, network=network, keys=keys, **kwargs)
+
+    def data(self):
+        return {self.keys[key]: self.network.stats[key] for key in self.keys}
+
+
 class NetworkUserComparison(ValueComparison):
     """Graph a comparison of user values at the network level."""
 
-    pass
+    def __init__(self, network=None, key=None, **kwargs):
+        ValueComparison.__init__(self, network=network, key=key, **kwargs)
+
+    def data(self):
+        return {nick: self.network.users[nick].stats[self.key]
+                for nick in self.network.users}
 
 
 class ChannelUserComparison(ValueComparison):

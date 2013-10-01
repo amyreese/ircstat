@@ -7,6 +7,7 @@ import numpy as np
 from collections import Counter
 
 from .ent import Struct
+from .lib import config
 
 FADED = '#e8e8e8'
 
@@ -23,6 +24,9 @@ class Graph(Struct):
         the given filename as a PNG image."""
         plt.figure()
         plt.title(self.title)
+
+        if config.xkcd_mode:
+            plt.xkcd()
 
         self.plot()
 

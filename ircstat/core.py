@@ -3,7 +3,6 @@
 
 VERSION = '0.1.0'
 
-import matplotlib.pyplot as plt
 import os
 
 from os import path
@@ -24,9 +23,6 @@ def graph_filename(plugin, graph, config):
 def do_everything(input_paths, output_path, config):
     """One entry point to rule them all."""
     push_config(config)
-
-    if config.xkcd_mode:
-        plt.xkcd()
 
     parser = LogParser(config)
     conversations = parser.parse_logs(input_paths)

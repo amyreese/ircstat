@@ -100,6 +100,9 @@ ignore = []
 # Graphing options
 ######################
 
+# image format to use as output from matplotlib
+image_format = 'png'
+
 # enable matplotlib's XKCD mode, where graphs will look hand-drawn
 xkcd_mode = True
 

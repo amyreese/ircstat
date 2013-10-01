@@ -4,6 +4,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from collections import Counter
+
 from .ent import Struct
 
 FADED = '#e8e8e8'
@@ -76,16 +78,22 @@ class ValueComparison(Graph):
         dataset = self.data()
 
         if self.bars:
+            if isinstance(dataset, dict):
+                dataset = dataset.items()
+
             ind = np.arange(len(dataset))
             width = 0.8
-            pairs = sorted([(k, v) for k, v in dataset.items()])
+            pairs = sorted(dataset)
             labels, values = zip(*pairs)
 
             plt.bar(ind, values, width)
             plt.xticks(ind + width / 2.0, labels)
 
         else:
-            pairs = sorted([(v, k) for k, v in dataset.items()], reverse=True)
+            if isinstance(dataset, dict):
+                dataset = [(v, k) for k, v in dataset.items()]
+
+            pairs = sorted(dataset, reverse=True)
             values, labels = zip(*pairs)
 
             plt.pie(values, labels=labels)
@@ -124,8 +132,9 @@ class NetworkUserComparison(ValueComparison):
         ValueComparison.__init__(self, network=network, key=key, **kwargs)
 
     def data(self):
-        return {nick: self.network.users[nick].stats[self.key]
-                for nick in self.network.users}
+        data = Counter({nick: self.network.users[nick].stats[self.key]
+                        for nick in self.network.users})
+        return data.most_common(10)
 
 
 class ChannelUserComparison(ValueComparison):

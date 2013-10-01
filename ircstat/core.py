@@ -4,6 +4,9 @@
 VERSION = '0.1.0'
 
 import matplotlib.pyplot as plt
+import os
+
+from os import path
 
 from .log import logger
 from .lib import push_config
@@ -11,6 +14,11 @@ from .parser import LogParser
 from .plugins import load_plugins
 
 log = logger(__name__)
+
+
+def graph_filename(plugin, graph, config):
+    slug = '{0}_{1}'.format(plugin.name, graph.title).lower().replace(' ', '_')
+    return slug + '.' + config.image_format
 
 
 def do_everything(input_paths, output_path, config):
@@ -28,6 +36,9 @@ def do_everything(input_paths, output_path, config):
         log.info('channel %s has %d conversations', channel,
                  len(conversations[channel]))
 
+    if not path.exists(output_path):
+        os.makedirs(output_path)
+
     plugins = load_plugins(config)
     plugin_stats = {}
 
@@ -37,5 +48,7 @@ def do_everything(input_paths, output_path, config):
 
         log.debug(sorted(result.users.keys()))
 
-        if plugin.name == 'Highbrow':
-            log.debug(result.stats)
+        for graph in plugin.generate_graphs():
+            filename = path.join(output_path,
+                                 graph_filename(plugin, graph, config))
+            graph.render(filename)

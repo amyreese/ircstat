@@ -3,6 +3,7 @@
 
 from ..lib import is_bot
 from ..ent import Message
+from ..graphs import NetworkKeyComparison, NetworkUserComparison
 from .base import Plugin
 
 
@@ -18,6 +19,22 @@ class Totals(Plugin):
         }
 
         self.inc_shared_stats(nick, **kwargs)
+
+    def generate_graphs(self):
+        return [
+            NetworkKeyComparison(title='Logged Events',
+                                 network=self.network,
+                                 bars=True,
+                                 keys={k: k
+                                    for k in Message.type_names.values()},
+                                 ),
+            NetworkUserComparison(title='Channel Joins',
+                                  network=self.network,
+                                  bars=True,
+                                  key=Message.type_to_name(Message.JOIN),
+                                  log=True,
+                                  ),
+        ]
 
 
 class Wordcount(Plugin):

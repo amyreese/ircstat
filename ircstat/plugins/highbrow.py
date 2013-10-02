@@ -22,8 +22,19 @@ class Highbrow(Plugin):
         'hell': r'hell',
     }
 
-    # this regex fragment wraps every swear regex
-    swear_regex = r'\b%s\b'
+    # a mapping of phrases to regexes that match the variants of the phrase
+    phrases = {
+        'lol': r'(lol|l\.o\.l)',
+        'rofl': r'rofl',
+        'haha': r'(ha|(ha|he)(ha|he)*)',
+        'nice': r'^nice$',
+        'hi': r'hi',
+        'howdy': r'howdy',
+        'morning': r'morning',
+    }
+
+    # this regex fragment wraps every regex
+    word_regex = r'\b%s\b'
 
     def process_message(self, message):
         if is_bot(message) or not message.content:
@@ -33,14 +44,21 @@ class Highbrow(Plugin):
         content = message.content.lower()
 
         if self._swears is None:
-            self._swears = {swear: re.compile(self.swear_regex % regex)
+            self._swears = {swear: re.compile(self.word_regex % regex)
                             for swear, regex in self.swears.items()}
+            self._phrases = {phrase: re.compile(self.word_regex % regex)
+                             for phrase, regex in self.phrases.items()}
 
         swears = {swear: len(regex.findall(content))
                   for swear, regex in self._swears.items()}
-        swears['total'] = sum(swears.values())
+        swears['total_swears'] = sum(swears.values())
+
+        phrases = {phrase: len(regex.findall(content))
+                   for phrase, regex in self._phrases.items()}
+        phrases['total_phrases'] = sum(phrases.values())
 
         self.inc_shared_stats(nick, **swears)
+        self.inc_shared_stats(nick, **phrases)
 
     def generate_graphs(self):
         return [
@@ -50,9 +68,18 @@ class Highbrow(Plugin):
                                  ),
             NetworkUserComparison(title='Potty Mouths',
                                   style='bar',
-                                  key='total',
+                                  key='total_swears',
+                                  ),
+            NetworkKeyComparison(title='Phrases Used',
+                                 style='bar',
+                                 keys={k: k for k in self.phrases},
+                                 ),
+            NetworkUserComparison(title='Broken Records',
+                                  style='bar',
+                                  key='total_phrases',
                                   ),
         ]
 
     # cache compiled regexes
     _swears = None
+    _phrases = None

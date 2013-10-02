@@ -112,9 +112,9 @@ class KeysOverTime(Graph):
 
 class ValueComparison(Graph):
     """Graph a set of keys/values, as either a bar or pie chart."""
-    def __init__(self, bars=False, **kwargs):
+    def __init__(self, style='bar', **kwargs):
         kwargs['legend'] = False
-        Graph.__init__(self, bars=bars, **kwargs)
+        Graph.__init__(self, style=style, **kwargs)
 
     def plot(self, dataset):
         """Plots a bar or pie chart based on key/value data, where keys are
@@ -122,7 +122,7 @@ class ValueComparison(Graph):
         if isinstance(dataset, dict):
             dataset = dataset.items()
 
-        if self.bars:
+        if self.style == 'bar':
             ind = np.arange(len(dataset))
             width = 0.8
             pairs = sorted(dataset)
@@ -131,13 +131,16 @@ class ValueComparison(Graph):
             plt.bar(ind, values, width)
             plt.xticks(ind + width / 2.0, labels)
 
-        else:
+        elif self.style == 'pie':
             dataset = [(v, k) for k, v in dataset]
 
             pairs = sorted(dataset, reverse=True)
             values, labels = zip(*pairs)
 
             plt.pie(values, labels=labels)
+
+        else:
+            raise NotImplementedError('Unknown chart style "%s"' % self.style)
 
     def data(self):
         """Subclasses should return a dictionary mapping labels to values."""

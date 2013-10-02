@@ -15,11 +15,6 @@ from .plugins import load_plugins
 log = logger(__name__)
 
 
-def graph_filename(plugin, graph, config):
-    slug = '{0}_{1}'.format(plugin.name, graph.title).lower().replace(' ', '_')
-    return slug + '.' + config.image_format
-
-
 def do_everything(input_paths, output_path, config):
     """One entry point to rule them all."""
     push_config(config)
@@ -45,6 +40,5 @@ def do_everything(input_paths, output_path, config):
         log.debug(sorted(result.users.keys()))
 
         for graph in plugin.generate_graphs():
-            filename = path.join(output_path,
-                                 graph_filename(plugin, graph, config))
-            graph.render(filename)
+            graph.prep(plugin, config, result)
+            graph.render()

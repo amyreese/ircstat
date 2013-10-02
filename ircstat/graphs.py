@@ -10,7 +10,9 @@ except ImportError:
 from collections import Counter
 
 from .ent import Struct
+from .log import logger
 
+log = logger(__name__)
 FADED = '#e8e8e8'
 
 
@@ -20,12 +22,21 @@ class Graph(Struct):
     def __init__(self, title, legend=True, **kwargs):
         Struct.__init__(self, title=title, legend=legend, **kwargs)
 
-    def render(self, filename):
+    def prep(self, plugin, config, network):
+        self.plugin = plugin
+        self.config = config
+        self.network = network
+
+    def filename(self):
+        return '{0}_{1}.{2}'.format(self.plugin.name,
+                                    self.title.replace(' ', '_'),
+                                    self.config.image_format).lower()
+
+    def render(self):
         """Basic framework for rendering a graph to file.  Sets up a figure,
         chains to Graph.plot() for plotting data, and then save the result to
         the given filename as a PNG image."""
-        from .lib import config
-        if config.xkcd_mode:
+        if self.config.xkcd_mode:
             plt.xkcd()
 
         plt.figure()
@@ -37,7 +48,7 @@ class Graph(Struct):
             plt.legend(loc='best', fontsize='x-small',
                        fancybox=True)
 
-        plt.savefig(filename, dpi=200, transparent=False)
+        plt.savefig(self.filename(), dpi=200, transparent=False)
 
     def plot(self):
         """Plot points on the graph. This must be implemented by subclasses."""
@@ -124,8 +135,8 @@ class ChannelKeyOverTime(TimeSeries):
 class NetworkKeyComparison(ValueComparison):
     """Graph a comparison of user values at the network level."""
 
-    def __init__(self, network=None, keys=None, **kwargs):
-        ValueComparison.__init__(self, network=network, keys=keys, **kwargs)
+    def __init__(self, keys=None, **kwargs):
+        ValueComparison.__init__(self, keys=keys, **kwargs)
 
     def data(self):
         return {self.keys[key]: self.network.stats[key] for key in self.keys}
@@ -134,8 +145,8 @@ class NetworkKeyComparison(ValueComparison):
 class NetworkUserComparison(ValueComparison):
     """Graph a comparison of user values at the network level."""
 
-    def __init__(self, network=None, key=None, **kwargs):
-        ValueComparison.__init__(self, network=network, key=key, **kwargs)
+    def __init__(self, key=None, **kwargs):
+        ValueComparison.__init__(self, key=key, **kwargs)
 
     def data(self):
         data = Counter({nick: self.network.users[nick].stats[self.key]

@@ -24,12 +24,12 @@ class Graph(Struct):
         """Basic framework for rendering a graph to file.  Sets up a figure,
         chains to Graph.plot() for plotting data, and then save the result to
         the given filename as a PNG image."""
-        plt.figure()
-        plt.title(self.title)
-
         from .lib import config
         if config.xkcd_mode:
             plt.xkcd()
+
+        plt.figure()
+        plt.title(self.title)
 
         self.plot()
 

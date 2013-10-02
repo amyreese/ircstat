@@ -8,6 +8,7 @@ except ImportError:
     pass  # let's be nice and not error out in setup.py
 
 from collections import Counter
+from os import path
 
 from .ent import Struct
 from .log import logger
@@ -19,8 +20,9 @@ FADED = '#e8e8e8'
 class Graph(Struct):
     """Generic graph interface."""
 
-    def __init__(self, title, legend=True, **kwargs):
-        Struct.__init__(self, title=title, legend=legend, **kwargs)
+    def __init__(self, title, legend=True, transform=None, **kwargs):
+        Struct.__init__(self, title=title, legend=legend,
+                        transform=transform, **kwargs)
 
     def prep(self, plugin, config, network):
         self.plugin = plugin
@@ -32,7 +34,7 @@ class Graph(Struct):
                                     self.title.replace(' ', '_'),
                                     self.config.image_format).lower()
 
-    def render(self):
+    def render(self, output_path):
         """Basic framework for rendering a graph to file.  Sets up a figure,
         chains to Graph.plot() for plotting data, and then save the result to
         the given filename as a PNG image."""
@@ -42,15 +44,44 @@ class Graph(Struct):
         plt.figure()
         plt.title(self.title)
 
-        self.plot()
+        dataset = self.data()
+        dataset = self.transformed_data(dataset)
+        self.plot(dataset)
 
         if self.legend:
             plt.legend(loc='best', fontsize='x-small',
                        fancybox=True)
 
-        plt.savefig(self.filename(), dpi=200, transparent=False)
+        plt.savefig(path.join(output_path, self.filename()),
+                    dpi=200, transparent=False)
 
-    def plot(self):
+    def transformed_data(self, dataset):
+        """Subclasses may choose to override this in order to allow for
+        more complex options for data transforms."""
+        dataset = self.data()
+
+        if self.transform is None:
+            return dataset
+
+        if isinstance(dataset, dict):
+            return {key: self.transform(key, value, self.network)
+                    for key, value in dataset.items()}
+
+        elif isinstance(dataset, list):
+            if all(isinstance(d, tuple) for d in dataset):
+                return [(key, self.transform(key, value, self.network))
+                        for key, value in dataset]
+            else:
+                return [self.transform(value, self.network)
+                        for value in dataset]
+
+        raise ValueError('Unsupported dataset type: %s', type(dataset))
+
+    def data(self):
+        """Subclasses should return a set of TimeSeries objects."""
+        raise NotImplementedError()
+
+    def plot(self, dataset):
         """Plot points on the graph. This must be implemented by subclasses."""
         raise NotImplementedError()
 
@@ -66,22 +97,17 @@ class TimeSeries(Struct):
 class KeysOverTime(Graph):
     """Time-series graph that will plot multiple TimeSeries objects."""
 
-    def plot(self):
+    def plot(self, dataset):
         """Plots a set of data points with the given properties."""
-        datasets = self.data()
-        assert all(isinstance(d, TimeSeries) for d in datasets)
+        assert all(isinstance(d, TimeSeries) for d in dataset)
 
-        for dataset in datasets:
-            x, y = zip(*dataset.pairs)
+        for timeseries in dataset:
+            x, y = zip(*timeseries.pairs)
 
             plt.plot(x, y,
-                     label=dataset.label,
-                     color=dataset.color,
-                     linestyle=dataset.linestyle)
-
-    def data(self):
-        """Subclasses should return a set of TimeSeries objects."""
-        raise NotImplementedError()
+                     label=timeseries.label,
+                     color=timeseries.color,
+                     linestyle=timeseries.linestyle)
 
 
 class ValueComparison(Graph):
@@ -90,11 +116,9 @@ class ValueComparison(Graph):
         kwargs['legend'] = False
         Graph.__init__(self, bars=bars, **kwargs)
 
-    def plot(self):
+    def plot(self, dataset):
         """Plots a bar or pie chart based on key/value data, where keys are
         the labels, and the values are the relative size/amount."""
-        dataset = self.data()
-
         if isinstance(dataset, dict):
             dataset = dataset.items()
 

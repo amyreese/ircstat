@@ -37,8 +37,7 @@ def do_everything(input_paths, output_path, config):
         result = plugin.process(conversations)
         plugin_stats[plugin] = result
 
-        log.debug(sorted(result.users.keys()))
-
         for graph in plugin.generate_graphs():
+            log.debug(graph)
             graph.prep(plugin, config, result)
-            graph.render()
+            graph.render(output_path)

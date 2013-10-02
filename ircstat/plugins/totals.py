@@ -23,17 +23,14 @@ class Totals(Plugin):
     def generate_graphs(self):
         return [
             NetworkKeyComparison(title='Logged Events',
-                                 network=self.network,
                                  bars=True,
                                  keys={k: k
                                        for k in Message.type_names.values()},
                                  ),
             NetworkUserComparison(title='Channel Joins',
-                                  network=self.network,
                                   key=Message.type_to_name(Message.JOIN),
                                   ),
             NetworkUserComparison(title='Messages Sent',
-                                  network=self.network,
                                   bars=True,
                                   key=Message.type_to_name(Message.MESSAGE)
                                   ),
@@ -53,3 +50,15 @@ class Wordcount(Plugin):
                               word_count_total=word_count,
                               word_count_messages=1,
                               )
+
+    def generate_graphs(self):
+        transform = lambda nick, v, net: (
+            v / net.users[nick].stats['word_count_messages'])
+
+        return [
+            NetworkUserComparison(title='Average Word Count',
+                                  bars=True,
+                                  key='word_count_total',
+                                  transform=transform,
+                                  ),
+        ]

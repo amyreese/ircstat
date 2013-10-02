@@ -84,10 +84,10 @@ class ValueComparison(Graph):
         the labels, and the values are the relative size/amount."""
         dataset = self.data()
 
-        if self.bars:
-            if isinstance(dataset, dict):
-                dataset = dataset.items()
+        if isinstance(dataset, dict):
+            dataset = dataset.items()
 
+        if self.bars:
             ind = np.arange(len(dataset))
             width = 0.8
             pairs = sorted(dataset)
@@ -97,10 +97,7 @@ class ValueComparison(Graph):
             plt.xticks(ind + width / 2.0, labels)
 
         else:
-            if isinstance(dataset, dict):
-                dataset = [(v, k) for k, v in dataset.items()]
-            else:
-                dataset = [(v, k) for k, v in dataset]
+            dataset = [(v, k) for k, v in dataset]
 
             pairs = sorted(dataset, reverse=True)
             values, labels = zip(*pairs)

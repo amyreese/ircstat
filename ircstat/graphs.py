@@ -178,7 +178,7 @@ class NetworkUserComparison(ValueComparison):
     def data(self):
         data = Counter({nick: self.network.users[nick].stats[self.key]
                         for nick in self.network.users})
-        return data.most_common(10)
+        return data.most_common(self.config.graph_users)
 
 
 class ChannelUserComparison(ValueComparison):

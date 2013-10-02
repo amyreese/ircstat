@@ -26,7 +26,7 @@ class Highbrow(Plugin):
     phrases = {
         'lol': r'(lol|l\.o\.l)',
         'rofl': r'rofl',
-        'haha': r'(ha|(ha|he)(ha|he)*)',
+        'haha': r'(ha|(ha|he)(ha|he)+)',
         'nice': r'^nice$',
         'hi': r'hi',
         'howdy': r'howdy',

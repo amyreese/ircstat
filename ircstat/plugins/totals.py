@@ -57,6 +57,10 @@ class Wordcount(Plugin):
             v / net.users[nick].stats['word_count_messages'])
 
         return [
+            NetworkUserComparison(title='Words Spoken',
+                                  style='pie',
+                                  key='word_count_total',
+                                  ),
             NetworkUserComparison(title='Average Word Count',
                                   style='bar',
                                   key='word_count_total',

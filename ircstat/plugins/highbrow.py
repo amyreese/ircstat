@@ -4,6 +4,7 @@
 import re
 
 from ..lib import is_bot
+from ..graphs import NetworkKeyComparison, NetworkUserComparison
 from .base import Plugin
 
 
@@ -13,10 +14,11 @@ class Highbrow(Plugin):
 
     # a mapping of swears to regexes that match the variants of the word
     swears = {
-        'crap': r'crap(s|py|ped)',
+        'ass': r'ass(es|hole)?',
+        'crap': r'crap(s|py|ped)?',
         'shit': r'shits?',
-        'fuck': r'fuck(s?|ing|ed)',
-        'damn': r'damn(n?it|ed)',
+        'fuck': r'fuck(s?|ing|ed)?',
+        'damn': r'(god)?damn(n?it|ed)?',
         'hell': r'hell',
     }
 
@@ -39,6 +41,18 @@ class Highbrow(Plugin):
         swears['total'] = sum(swears.values())
 
         self.inc_shared_stats(nick, **swears)
+
+    def generate_graphs(self):
+        return [
+            NetworkKeyComparison(title='Swears Used',
+                                 style='bar',
+                                 keys={k: k for k in self.swears},
+                                 ),
+            NetworkUserComparison(title='Potty Mouths',
+                                  style='bar',
+                                  key='total',
+                                  ),
+        ]
 
     # cache compiled regexes
     _swears = None

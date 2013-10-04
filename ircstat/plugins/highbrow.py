@@ -31,6 +31,8 @@ class Highbrow(Plugin):
         'hi': r'hi',
         'howdy': r'howdy',
         'morning': r'morning',
+        'wat': r'wat',
+        'yep': r'yep',
     }
 
     # this regex fragment wraps every regex

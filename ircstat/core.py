@@ -1,7 +1,7 @@
 # Copyright 2013 John Reese
 # Licensed under the MIT license
 
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 
 import os
 

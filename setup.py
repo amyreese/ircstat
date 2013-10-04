@@ -30,6 +30,6 @@ setup(name='ircstat',
       requires=['matplotlib (>=1.3.0)',
                 'Jinja2 (>=2.6)',
                 ],
-      packages=['ircstat'],
+      packages=['ircstat', 'ircstat.plugins'],
       scripts=['bin/ircstat'],
       )

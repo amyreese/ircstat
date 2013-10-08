@@ -15,6 +15,7 @@ class Highbrow(Plugin):
     # a mapping of swears to regexes that match the variants of the word
     swears = {
         'ass': r'ass(es|hole)?',
+        'bitch': r'bitch(ed|es|ing)?',
         'crap': r'crap(s|py|ped)?',
         'shit': r'shits?',
         'fuck': r'fuck(s?|ing|ed)?',

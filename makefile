@@ -12,3 +12,6 @@ lint:
 
 clean:
 	rm -rf build dist README MANIFEST ircstat.egg-info
+
+hooks:
+	cp -r .hooks/* .git/hooks/
